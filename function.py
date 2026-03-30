@@ -1,5 +1,8 @@
 import csv
+# imports fuctions to use csv files
 
+
+# dictionary of students
 students = {
 
     1001926355 : {"name": "melissa",
@@ -21,12 +24,14 @@ students = {
                        
                   }
 
+# fuction to add new student
 def add_student():
 
     global students
 
     validate_student = True
 
+    # loop to validate student's type of data
     while validate_student:
 
         try:
@@ -61,12 +66,14 @@ def add_student():
                     print("Write a valid option")
                     validate_student =  False
 
+                # adds new student
                 students[id] = {"name": name,
                     "age" : age,
                     "course" : course,
                     "active" : active
                 }
                 validate_student = False
+
             else:
                 print("This student already exists")
                 validate_student = False
@@ -77,6 +84,7 @@ def add_student():
 
     return_menu()
 
+# fuction to show all the students
 def read_list():
 
     global students
@@ -84,59 +92,75 @@ def read_list():
     if not students:
         print("The list of students is empty")
 
+    # prints student's information
     else:
         for id,data in students.items():
             print(f"{id} | Name: {data['name']} | Age: {data['age']} | Course: {data['course']} | Active: {data['active']}")
 
     return_menu()
 
+# fuction to update a student
 def update_student():
     global students
 
-    print(students)
+    for id,data in students.items():
+        print(f"{id} | Name: {data['name']} | Age: {data['age']} | Course: {data['course']} | Active: {data['active']}")
 
-    try:
 
-        id = int(input("Write student's id: ").strip())
+    validate_student = True
 
-        if students.get(id):
+    # loop to validate student's type of data
+    while validate_student:
 
-            name = input("Write name: ").strip().lower()
-            course = int(input("Write course (1 or 2): ").strip())
+        try:
 
-            if course == 1:
-                course == 1
+            id = int(input("Write student's id: ").strip())
 
-            elif course == 2:
-                course == 2
+            if students.get(id):
+
+                name = input("Write name: ").strip().lower()
+                course = int(input("Write course (1 or 2): ").strip())
+
+                if course == 1:
+                    course == 1
+
+                elif course == 2:
+                    course == 2
+
+                else:
+                    print("Write a valid course")
+                    validate_student =  False
+
+                age = int(input("Write age: ").strip())
+                validate_active = int(input("Is the student active? (1. yes 2. no): ").strip())
+                active = True
+
+                if validate_active == 1:
+                    active == True
+                elif validate_active == 2:
+                    active == False
+                else:
+                    print("Insert valid option")
+                    validate_student =  False
+
+                students[id] = {"name": name,
+                        "age" : age,
+                        "course" : course,
+                        "active" : active
+                }
+                print(f"{name} updated")
+                validate_student =  False
 
             else:
-                print("Write a valid course")
+                print(f"{id} is not on the students' list.")
+                validate_student =  False
 
-            age = int(input("Write age: ").strip())
-            validate_active = int(input("Is the student active? (1. yes 2. no): ").strip())
-            active = True
-
-            if validate_active == 1:
-                active == True
-            elif validate_active == 2:
-                active == False
-
-            students[id] = {"name": name,
-                  "age" : age,
-                  "course" : course,
-                  "active" : active
-            }
-            print(f"{name} updated")
-
-        else:
-            print(f"{id} is not on the students' list.")
-
-    except ValueError:
-            print("Insert valid data")
+        except ValueError:
+                print("Insert valid data")
 
     return_menu()
 
+# fuction to search a student
 def search_student():
     
     global students
@@ -145,6 +169,7 @@ def search_student():
 
         id = int(input("Write student's id: ").strip())
 
+        # search the student
         if students.get(id):
 
             print(students.get(id))
@@ -157,15 +182,17 @@ def search_student():
 
     return_menu()
 
+# fuction to delete a student
 def delete_student():
     global students
 
-    print(students)
+    for id,data in students.items():
+        print(f"{id} | Name: {data['name']} | Age: {data['age']} | Course: {data['course']} | Active: {data['active']}")
 
     id = input("Write ID to delete: ").strip()
     try:
         id = int(id)
-
+        # searchs whether the student exists
         if id in students:
             del students[id]
             print(f"{id} deleted")
@@ -177,14 +204,16 @@ def delete_student():
 
     return_menu()
 
+# fuction to save as csv file
 def save_csv(add_header=True):
     global students
 
+    # fuction to convert the dictionary to csv file
     with open("students.csv","w",encoding='utf-8') as f:
         writer = csv.writer(f)
-
+        # writes headers
         writer.writerow(["ID","Name","Age", "Course","Active"])
-
+        # writes rows
         for id, data in students.items():
             writer.writerow([id,data["name"],
                              data["age"],
@@ -194,20 +223,23 @@ def save_csv(add_header=True):
     print("CSV file created")
     return_menu()
 
+# fuction to load csv
 def load_csv():
     global students
 
     try:
+        # reads a csv file and converts it to a dictionary
         with open("students.csv","r",encoding="utf-8") as f:
             reader = csv.DictReader(f)
 
             for row in reader:
+                # matchs the information
                 try:
-                    id = int(row["id"].strip())
-                    name = row["name"].strip().lower()
-                    age = int(row["age"])
-                    course = int(row["course"])
-                    active = bool(row["active"])
+                    id = int(row["ID"].strip())
+                    name = row["Name"].strip().lower()
+                    age = int(row["Age"])
+                    course = int(row["Course"])
+                    active = bool(row["Active"])
 
                     if id in students:
                         print(f"´{id} already in students' list, updating...")
@@ -229,6 +261,7 @@ def load_csv():
     
     return_menu()
                 
+# fuction to return to menu
 def return_menu():
     back = input("""Do you want to return to main menu?
         1. Yes
@@ -240,7 +273,7 @@ def return_menu():
         return True
     elif back == "2":
         print("Exit")
-        exit(0)  
+        exit(0)  # exits the program 
     else:
         print("Invalid option, try again.")
 

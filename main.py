@@ -1,4 +1,7 @@
 from function import add_student, read_list, update_student, delete_student, save_csv, load_csv, return_menu, search_student
+# import functions from the correct file
+
+# main loop that runs the menu with all the functions
 
 def menu():
     
@@ -48,5 +51,9 @@ def menu():
     
         except ValueError:
             print("Choose a valid option")
+# closes the menu fuction
 
+
+
+# runs the program
 menu()
