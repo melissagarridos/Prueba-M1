@@ -53,10 +53,10 @@ def add_student():
                     print("Write a valid course")
                     break
 
-                validate_age = int(input("Write age: ").strip())
-                if 0 < validate_age < 100:
-                    age = validate_age
-                else: 
+                age = int(input("Write age: ").strip())
+                if age > 0 and age < 100:
+                    age == age
+                else:
                     print("Insert valid age")
                     break
 
