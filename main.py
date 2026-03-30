@@ -14,7 +14,7 @@ def menu():
             1. Add student
             2. Read student's list
             3. Update student
-            4. Look for a student
+            4. Search for a student
             5. Delete student
             6. Save data as CSV
             7. Load CSV

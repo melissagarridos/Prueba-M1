@@ -51,9 +51,15 @@ def add_student():
 
                 else:
                     print("Write a valid course")
-                    validate_student =  False
+                    break
 
-                age = int(input("Write age: ").strip())
+                validate_age = int(input("Write age: ").strip())
+                if 0 < validate_age < 100:
+                    age = validate_age
+                else: 
+                    print("Insert valid age")
+                    break
+
                 validate_active = int(input("Is the student active? (1. yes 2. no): ").strip())
                 active = True
 
@@ -64,7 +70,7 @@ def add_student():
 
                 else:
                     print("Write a valid option")
-                    validate_student =  False
+                    break
 
                 # adds new student
                 students[id] = {"name": name,
@@ -128,10 +134,18 @@ def update_student():
                     course == 2
 
                 else:
-                    print("Write a valid course")
-                    validate_student =  False
+                    print("Write valid course")
+                    break
+
 
                 age = int(input("Write age: ").strip())
+
+                if age > 0 and age < 100:
+                    age == age
+                else: 
+                    print("Insert valid age")
+                    break
+
                 validate_active = int(input("Is the student active? (1. yes 2. no): ").strip())
                 active = True
 
@@ -141,7 +155,7 @@ def update_student():
                     active == False
                 else:
                     print("Insert valid option")
-                    validate_student =  False
+                    break
 
                 students[id] = {"name": name,
                         "age" : age,
@@ -149,14 +163,14 @@ def update_student():
                         "active" : active
                 }
                 print(f"{name} updated")
-                validate_student =  False
+                break
 
             else:
                 print(f"{id} is not on the students' list.")
-                validate_student =  False
+                break
 
         except ValueError:
-                print("Insert valid data")
+            print("Invalid input")
 
     return_menu()
 
