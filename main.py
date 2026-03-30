@@ -49,11 +49,4 @@ def menu():
         except ValueError:
             print("Choose a valid option")
 
-
-
-
-
-
-
-
 menu()

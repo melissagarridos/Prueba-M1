@@ -1,3 +1,5 @@
+import csv
+
 students = {
 
     1001926355 : {"name": "melissa",
@@ -23,52 +25,57 @@ def add_student():
 
     global students
 
-    try:
+    validate_student = True
 
-        id = int(input("Write student ID: ").strip())
+    while validate_student:
 
-        if id not in students:
+        try:
 
-            name = input("Write name: ").strip().lower()
-            course = int(input("Write course (1 or 2): ").strip())
+            id = int(input("Write student ID: ").strip())
 
-            if course == 1:
-                course == 1
+            if id not in students:
 
-            elif course == 2:
-                course == 2
+                name = input("Write name: ").strip().lower()
+                course = int(input("Write course (1 or 2): ").strip())
 
+                if course == 1:
+                    course == 1
+
+                elif course == 2:
+                    course == 2
+
+                else:
+                    print("Write a valid course")
+                    validate_student =  False
+
+                age = int(input("Write age: ").strip())
+                validate_active = int(input("Is the student active? (1. yes 2. no): ").strip())
+                active = True
+
+                if validate_active == 1:
+                    active == True
+                elif validate_active == 2:
+                    active == False
+
+                else:
+                    print("Write a valid option")
+                    validate_student =  False
+
+                students[id] = {"name": name,
+                    "age" : age,
+                    "course" : course,
+                    "active" : active
+                }
+                validate_student = False
             else:
-                print("Write a valid course")
+                print("This student already exists")
+                validate_student = False
 
-            age = int(input("Write age: ").strip())
-            validate_active = int(input("Is the student active? (1. yes 2. no): ").strip())
-            active = True
+        except ValueError:
 
-            if validate_active == 1:
-                active == True
-            elif validate_active == 2:
-                active == False
-
-            else:
-                print("Write a valid option")
-
-            students[id] = {"name": name,
-                  "age" : age,
-                  "course" : course,
-                  "active" : active
-            }
-    
-        else:
-            print("This student already exists")
-
-    except ValueError:
-
-        print("Invalid input")
+            print("Invalid input")
 
     return_menu()
-
-
 
 def read_list():
 
@@ -170,12 +177,58 @@ def delete_student():
 
     return_menu()
 
-def save_csv():
-    pass
+def save_csv(add_header=True):
+    global students
+
+    with open("students.csv","w",encoding='utf-8') as f:
+        writer = csv.writer(f)
+
+        writer.writerow(["ID","Name","Age", "Course","Active"])
+
+        for id, data in students.items():
+            writer.writerow([id,data["name"],
+                             data["age"],
+                             data["course"],
+                             data["active"]])
+            
+    print("CSV file created")
+    return_menu()
 
 def load_csv():
-    pass
+    global students
 
+    try:
+        with open("students.csv","r",encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+
+            for row in reader:
+                try:
+                    id = int(row["id"].strip())
+                    name = row["name"].strip().lower()
+                    age = int(row["age"])
+                    course = int(row["course"])
+                    active = bool(row["active"])
+
+                    if id in students:
+                        print(f"´{id} already in students' list, updating...")
+
+                    students[id] = {
+                        "name" : name,
+                        "age" : age,
+                        "course" : course,
+                        "active" : active}
+
+                except ValueError:
+                    print(f"Error in row: {row}")
+
+            print("CSV loaded")
+                
+    except FileNotFoundError:
+        print("File not found")
+
+    
+    return_menu()
+                
 def return_menu():
     back = input("""Do you want to return to main menu?
         1. Yes
